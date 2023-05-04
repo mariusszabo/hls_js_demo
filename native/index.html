@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Native Video</title>
+    <style>
+        input {
+            width: 100%;
+            height: 30px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        video {
+            width: 300px;
+            height: 200px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="video_placement">
+        <input type="text" placeholder="add src" id="srcInput"
+            value="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></input>
+        <button id="addBtn">Add Src</button>
+        <h1>Native Video</h1>
+        <video id="videotag" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" controls autoplay="false">
+        </video>
+        <h1>Logs</h1>
+        <code id="logs">
+
+        </code>
+    </div>
+    <script>
+        debugger;
+        let addSrc = document.getElementById('addBtn');
+        let input = document.getElementById('srcInput');
+        let logs = document.getElementById('logs');
+        let video = document.getElementById('videotag');
+        let addLog = (msg) => {
+            const p = document.createElement('p');
+            p.innerHTML = msg;
+            logs.appendChild(p);
+        };
+
+        addSrc.addEventListener('click', () => {
+            logs.innerHTML = 'Logs Cleared!';
+            const src = input.value;
+            video.src = src;
+            try {
+                video.play().catch(err => {
+                    addLog('play catch: ' + err);
+                });
+            } catch (e) {
+
+            }
+
+        })
+
+        video.addEventListener('error', () => {
+            let error = '';
+            try {
+                error = video.error.message;
+            } catch (e) {
+                error = 'unknown error';
+            }
+            addLog('video error: ' + error);
+        });
+    </script>
+</body>
+
+</html>
